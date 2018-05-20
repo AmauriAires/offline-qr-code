@@ -818,11 +818,11 @@ const UserInterface = (function () {
 
             const svgString = (new XMLSerializer()).serializeToString(svgElem);
 
-            const file = new File([svgString], "qrcode.svg", {type: "image/svg+xml;charset=utf-8"});
+            // const file = new File([svgString], "qrcode.svg", {type: "image/svg+xml;charset=utf-8"});
 
             browser.runtime.sendMessage({
                 type: "saveFileAs",
-                file: file,
+                file: svgString,
                 filename: "qrcode.svg",
             }).then(() => {
                 Logger.logInfo("SVG image saved on disk", svgElem, svgString);

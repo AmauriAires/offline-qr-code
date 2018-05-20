@@ -213,7 +213,9 @@ const BrowserCommunication = (function () {
         switch (request.type) {
         // workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1461134
         case COMMUNICATION_MESSAGE_TYPE.SAVE_FILE_AS:
-            const objectUrl = URL.createObjectURL(request.file);
+            const file = new File([request.file], "qrcode.svg", {type: "image/svg+xml;charset=utf-8"});
+
+            const objectUrl = URL.createObjectURL(file);
 
             return browser.downloads.download({
                 url: objectUrl,
@@ -225,10 +227,10 @@ const BrowserCommunication = (function () {
             }).finally(() => {
                 // clean-up
                 // workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1462926
-                setTimeout(() => {
-                    console.log("objectUrl revoked:", objectUrl);
+                // setTimeout(() => {
+                //     console.log("objectUrl revoked:", objectUrl);
                     URL.revokeObjectURL(objectUrl);
-                }, 5000);
+                // }, 5000);
             });
         }
         /* eslint-enable no-case-declarations */
